@@ -18,13 +18,13 @@ var db = massive.connect({
     function(err, localdb) {
         db = localdb;
         app.set('db', db);
-    //     db.schema(function(err, data) {
-    //   if (err) {
-    //       console.log(err);
-    //   } else { 
-    //       console.log('All tables successfully reset');
-    //   }
-    // });
+        db.schema(function(err, data) {
+      if (err) {
+          console.log(err);
+      } else { 
+          console.log('All tables successfully reset');
+      }
+    });
   })
 
 
