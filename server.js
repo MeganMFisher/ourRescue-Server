@@ -10,10 +10,10 @@ app.use('/', express.static(__dirname + '../app/dist'));
 
 var port = 8100;
 
-// var config = require('../config.js');
+var config = require('/config.js');
 
 var db = massive.connect({
-    connectionString: 'postgres://pqgqwtab:ZqknWpdDnQTaf-WBssvNxDX2tfWHXISE@babar.elephantsql.com:5432/pqgqwtab'
+    connectionString: config.database
   },
     function(err, localdb) {
         db = localdb;
