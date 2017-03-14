@@ -10,7 +10,7 @@ app.use('/', express.static(__dirname + '../app/dist'));
 
 var port = 8100;
 
-var config = require('/config.js');
+var config = require('./config.js');
 
 var db = massive.connect({
     connectionString: config.database
