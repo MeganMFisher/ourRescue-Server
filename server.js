@@ -17,7 +17,7 @@ app.use('/', express.static(__dirname + '../app/dist'));
 var port = 8100;
 
 var config = require('./config.js');
-var controller = require('./serverCtrl.js');
+// var controller = require('./serverCtrl.js'); 
 
 // let ensureAuthenticated = (req, res, next) => { 
 //   if (!req.header('Authorization')) {
@@ -85,9 +85,54 @@ app.get('/products/:id', function(req, res, next){
 
 // app.post('/auth/login', controller.login)
 // app.post('/auth/signup', controller.signup)
-app.get('/api/get-all', controller.getAll)
-app.post('/add-to-cart', controller.addToCart)
-app.post('/check-out', controller.checkOut)
+// app.get('/api/get-all', controller.getAll)
+
+app.get('/api/get-all', (req, res, next) => {
+    db.get_all((err, data) => {
+      if (err) return next(err);
+      else return res.status(200).send(data)
+    })
+  })
+
+// app.post('/add-to-cart', controller.addToCart)
+
+app.post('/add-to-cart', (req, res, next) => {
+    db.get_order(req.body.userId, (err, order) => {
+      if (err) return next(err);
+      if (order[0] && !order[0].completed) {
+        db.add_to_cart([order[0].id, req.body.item], (err, cart) => {
+          if (err) return next(err);
+          db.get_cart(order[0].id, (err, cart) => {
+            if (err) return next(err);
+            return res.send(cart);
+          })
+        })
+      } else {
+        db.create_order(req.body.userId, (err, data) => {
+          if (err) return next(err);
+          db.get_order(req.body.userId, (err, order) => {
+            if (err) return next(err);
+            db.add_to_cart([order[0].id, req.body.item], (err, data) => {
+              if (err) return next(err);
+              db.get_cart(order[0].id, (err, cart) => {
+                if (err) return next(err);
+                return res.send(cart);
+              })
+            })
+          })
+        })
+      }
+    })
+  });
+
+// app.post('/check-out', controller.checkOut)
+
+app.post('/check-out', (req, res, next) => {
+    db.check_out(req.body.userId, (err, data) => {
+      if (err) return next(err);
+      else res.send([]);
+    })
+  });
 
 
 app.listen(process.env.PORT || port, function() {
