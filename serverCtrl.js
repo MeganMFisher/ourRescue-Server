@@ -1,7 +1,7 @@
-var express = require('express');
-var app = express();
-var massive = require('massive');
-var config = require('./config.js');
+// var express = require('express');
+// var app = express();
+// var massive = require('massive');
+// var config = require('./config.js');
 // var jwt = require('jwt-simple');
 // var moment = require('moment');
 // var bcrypt = require('bcrypt-nodejs');
@@ -19,7 +19,7 @@ var config = require('./config.js');
 
 
 
-module.exports = {
+// module.exports = {
 //   login: (req, res, next) => {
 //     db.users.findOne({
 //       username: req.body.username
@@ -70,47 +70,47 @@ module.exports = {
 //     })
 //   },
 
-  getAll: (req, res, next) => {
-    db.get_all((err, data) => {
-      if (err) return next(err);
-      else return res.status(200).send(data)
-    })
-  },
+//   getAll: (req, res, next) => {
+//     db.get_all((err, data) => {
+//       if (err) return next(err);
+//       else return res.status(200).send(data)
+//     })
+//   },
 
-  addToCart: (req, res, next) => {
-    db.get_order(req.body.userId, (err, order) => {
-      if (err) return next(err);
-      if (order[0] && !order[0].completed) {
-        db.add_to_cart([order[0].id, req.body.item], (err, cart) => {
-          if (err) return next(err);
-          db.get_cart(order[0].id, (err, cart) => {
-            if (err) return next(err);
-            return res.send(cart);
-          })
-        })
-      } else {
-        db.create_order(req.body.userId, (err, data) => {
-          if (err) return next(err);
-          db.get_order(req.body.userId, (err, order) => {
-            if (err) return next(err);
-            db.add_to_cart([order[0].id, req.body.item], (err, data) => {
-              if (err) return next(err);
-              db.get_cart(order[0].id, (err, cart) => {
-                if (err) return next(err);
-                return res.send(cart);
-              })
-            })
-          })
-        })
-      }
-    })
-  },
+//   addToCart: (req, res, next) => {
+//     db.get_order(req.body.userId, (err, order) => {
+//       if (err) return next(err);
+//       if (order[0] && !order[0].completed) {
+//         db.add_to_cart([order[0].id, req.body.item], (err, cart) => {
+//           if (err) return next(err);
+//           db.get_cart(order[0].id, (err, cart) => {
+//             if (err) return next(err);
+//             return res.send(cart);
+//           })
+//         })
+//       } else {
+//         db.create_order(req.body.userId, (err, data) => {
+//           if (err) return next(err);
+//           db.get_order(req.body.userId, (err, order) => {
+//             if (err) return next(err);
+//             db.add_to_cart([order[0].id, req.body.item], (err, data) => {
+//               if (err) return next(err);
+//               db.get_cart(order[0].id, (err, cart) => {
+//                 if (err) return next(err);
+//                 return res.send(cart);
+//               })
+//             })
+//           })
+//         })
+//       }
+//     })
+//   },
 
-  checkOut: (req, res, next) => {
-    db.check_out(req.body.userId, (err, data) => {
-      if (err) return next(err);
-      else res.send([]);
-    })
-  }
+//   checkOut: (req, res, next) => {
+//     db.check_out(req.body.userId, (err, data) => {
+//       if (err) return next(err);
+//       else res.send([]);
+//     })
+//   }
 
-}; 
+// }; 
