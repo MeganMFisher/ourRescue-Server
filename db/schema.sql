@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS cart, products, orders, users;
 
 
 
-CREATE TABLE user
+CREATE TABLE users
 (
   id SERIAL PRIMARY KEY,
   name VARCHAR(150),
@@ -10,11 +10,11 @@ CREATE TABLE user
 );
 
 
-CREATE TABLE order
+CREATE TABLE orders
 (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER REFERENCES user(id),
-  completed BOOLEAN
+  usersid INTEGER REFERENCES users(id),
+  complete BOOLEAN
 );
 
 
@@ -47,11 +47,11 @@ INSERT INTO products
  ('O.U.R. Long-sleeve Crew Tee', 12.00, '100% combed cotton jersey.', './products/ourLongSleeveCrewTee.png');
 
 
-CREATE TABLE cart
+CREATE TABLE products_in_cart
 (
   id SERIAL PRIMARY KEY,
-  order_id INTEGER REFERENCES order(id),
-  productS_id INTEGER REFERENCES products(id),
+  orderid INTEGER REFERENCES orders(id),
+  productid INTEGER REFERENCES products(id),
   qty INTEGER
 );
 
