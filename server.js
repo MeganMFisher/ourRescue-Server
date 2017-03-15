@@ -87,52 +87,52 @@ app.get('/products/:id', function(req, res, next){
 // app.post('/auth/signup', controller.signup)
 // app.get('/api/get-all', controller.getAll)
 
-app.get('/api/get-all', function(req, res, next) {
-    db.get_all(function(err, data) {
-      if (err) return next(err);
-      else return res.status(200).send(data)
-    })
-  })
+// app.get('/api/get-all', function(req, res, next) {
+//     db.get_all(function(err, data) {
+//       if (err) return next(err);
+//       else return res.status(200).send(data)
+//     })
+//   })
 
 // app.post('/add-to-cart', controller.addToCart)
 
-app.post('/add-to-cart', function(req, res, next) {
-    db.get_order(req.body.userId, function(err, order) {
-      if (err) return next(err);
-      if (order[0] && !order[0].completed) {
-        db.add_to_cart([order[0].id, req.body.item], function(err, cart) {
-          if (err) return next(err);
-          db.get_cart(order[0].id, function(err, cart) {
-            if (err) return next(err);
-            return res.send(cart);
-          })
-        })
-      } else {
-        db.create_order(req.body.userId, function(err, data) {
-          if (err) return next(err);
-          db.get_order(req.body.userId, function(err, order) {
-            if (err) return next(err);
-            db.add_to_cart([order[0].id, req.body.item], function(err, data) {
-              if (err) return next(err);
-              db.get_cart(order[0].id, function(err, cart) {
-                if (err) return next(err);
-                return res.send(cart);
-              })
-            })
-          })
-        })
-      }
-    })
-  });
+// app.post('/add-to-cart', function(req, res, next) {
+//     db.get_order(req.body.userId, function(err, order) {
+//       if (err) return next(err);
+//       if (order[0] && !order[0].completed) {
+//         db.add_to_cart([order[0].id, req.body.item], function(err, cart) {
+//           if (err) return next(err);
+//           db.get_cart(order[0].id, function(err, cart) {
+//             if (err) return next(err);
+//             return res.send(cart);
+//           })
+//         })
+//       } else {
+//         db.create_order(req.body.userId, function(err, data) {
+//           if (err) return next(err);
+//           db.get_order(req.body.userId, function(err, order) {
+//             if (err) return next(err);
+//             db.add_to_cart([order[0].id, req.body.item], function(err, data) {
+//               if (err) return next(err);
+//               db.get_cart(order[0].id, function(err, cart) {
+//                 if (err) return next(err);
+//                 return res.send(cart);
+//               })
+//             })
+//           })
+//         })
+//       }
+//     })
+//   });
 
 // app.post('/check-out', controller.checkOut)
 
-app.post('/check-out', function(req, res, next) {
-    db.check_out(req.body.userId, function(err, data) {
-      if (err) return next(err);
-      else res.send([]);
-    })
-  });
+// app.post('/check-out', function(req, res, next) {
+//     db.check_out(req.body.userId, function(err, data) {
+//       if (err) return next(err);
+//       else res.send([]);
+//     })
+//   });
 
 
 app.listen(process.env.PORT || port, function() {
