@@ -1,0 +1,1 @@
+UPDATE orders SET completed= true WHERE userid = ($1) AND completed = false; 

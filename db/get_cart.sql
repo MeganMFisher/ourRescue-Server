@@ -1,0 +1,1 @@
+SELECT productid FROM cart WHERE orderid = ($1);
