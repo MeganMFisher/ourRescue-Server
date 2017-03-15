@@ -1,2 +1,2 @@
-SELECT name, price, imageurl
+SELECT id, name, price, imageurl
 FROM products
