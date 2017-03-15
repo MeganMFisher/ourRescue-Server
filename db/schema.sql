@@ -2,17 +2,18 @@ DROP TABLE IF EXISTS cart, products, orders, users;
 
 
 
-CREATE TABLE users
+CREATE TABLE user
 (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(150)
+  name VARCHAR(150),
+  email VARCHAR(150)
 );
 
 
-CREATE TABLE orders
+CREATE TABLE order
 (
   id SERIAL PRIMARY KEY,
-  users_id INTEGER REFERENCES users(id),
+  user_id INTEGER REFERENCES user(id),
   completed BOOLEAN
 );
 
@@ -48,8 +49,9 @@ INSERT INTO products
 
 CREATE TABLE cart
 (
-  orders_id INTEGER REFERENCES orders(id),
-  products_id INTEGER REFERENCES products(id),
-  quantity INTEGER
+  id SERIAL PRIMARY KEY,
+  order_id INTEGER REFERENCES order(id),
+  productS_id INTEGER REFERENCES products(id),
+  qty INTEGER
 );
 
