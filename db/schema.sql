@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS cart, products, orders, users;
-
+DROP TABLE IF EXISTS cart, orders, products, users;
+--DROP TABLE products CASCADE; <-- we need this to deal with key constraints. 
 
 
  CREATE TABLE users (
@@ -52,7 +52,7 @@ CREATE TABLE cart
 (
   id SERIAL PRIMARY KEY,
   orderid INTEGER REFERENCES orders(id),
-  productid INTEGER REFERENCES products(id),
+  productid INTEGER REFERENCES products(id)
  
 );
 

@@ -29,7 +29,7 @@ var db = massive.connect({
 
 
 // var controller = require('./productsCtrl.js');
-var db = app.get('db'); 
+//var db = app.get('db'); 
 
 
 
@@ -39,6 +39,7 @@ app.get('/products', function(req, res, next){
                 res.send(err);
             } else {
                 //res.json(response)
+                console.log('success')
                 res.status(200).send(response)
             }
         })
@@ -49,6 +50,7 @@ app.get('/products/:id', function(req, res, next){
         if(err) {
             res.status(500).json(err);
         } else {
+            console.log('success')
              res.json(response)
         }
     })
