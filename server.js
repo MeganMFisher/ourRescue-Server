@@ -28,33 +28,33 @@ var db = massive.connect({
   })
 
 
-var controller = require('./productsCtrl.js');
+// var controller = require('./productsCtrl.js');
 var db = app.get('db'); 
 
 
 
-app.get('/products', controller.getAll);
-// app.get('/products', function(req, res, next){
-//         db.getAllProducts(function(err, response){
-//             if(err) {
-//                 res.send(err);
-//             } else {
-//                 //res.json(response)
-//                 res.status(200).send(response)
-//             }
-//         })
-//     });
-app.get('/products/:id', controller.getOne);
+// app.get('/products', controller.getAll);
+// app.get('/products/:id', controller.getOne);
+app.get('/products', function(req, res, next){
+        db.getAllProducts(function(err, response){
+            if(err) {
+                res.send(err);
+            } else {
+                //res.json(response)
+                res.status(200).send(response)
+            }
+        })
+    });
 
-// app.get('/products/:id', function(req, res, next){
-//     db.getOneProduct(req.params.id, function(err, response){
-//         if(err) {
-//             res.status(500).json(err);
-//         } else {
-//              res.json(response)
-//         }
-//     })
-    // });
+app.get('/products/:id', function(req, res, next){
+    db.getOneProduct(req.params.id, function(err, response){
+        if(err) {
+            res.status(500).json(err);
+        } else {
+             res.json(response)
+        }
+    })
+    });
 
 
 
