@@ -1,10 +1,36 @@
-DROP TABLE IF EXISTS cart, orders, products, users;
+DROP TABLE IF EXISTS abolitionists, cart, orders, products, users;
 --DROP TABLE products CASCADE; <-- we need this to deal with key constraints. 
+
+CREATE TABLE abolitionists (
+  id SERIAL PRIMARY KEY,
+  image VARCHAR(150)
+);
+
+INSERT INTO abolitionists 
+(image) VALUES
+('./abolitionists/abolitionists.png'),
+('./abolitionists/abolitionists1.png'),
+('./abolitionists/abolitionists2.png'),
+('./abolitionists/abolitionists3.png'),
+('./abolitionists/abolitionists4.png'),
+('./abolitionists/abolitionists5.png'),
+('./abolitionists/abolitionists6.png'),
+('./abolitionists/abolitionists7.png'),
+('./abolitionists/abolitionists8.png'),
+('./abolitionists/abolitionists9.png'),
+('./abolitionists/abolitionists10.png'),
+('./abolitionists/abolitionists11.png'),
+('./abolitionists/abolitionists12.png'),
+('./abolitionists/abolitionists13.png'),
+('./abolitionists/abolitionists14.png'),
+('./abolitionists/abolitionists15.png'),
+('./abolitionists/abolitionists16.png'),
+('./abolitionists/abolitionists17.png');
 
 
  CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    firstn_ame VARCHAR(255),
+    first_name VARCHAR(255),
     last_name VARCHAR(255),
     username VARCHAR(255),
     password VARCHAR(255)

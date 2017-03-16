@@ -38,7 +38,6 @@ app.get('/products', function(req, res, next){
             if(err) {
                 res.send(err);
             } else {
-                //res.json(response)
                 console.log('success')
                 res.status(200).send(response)
             }
@@ -54,6 +53,17 @@ app.get('/products/:id', function(req, res, next){
              res.json(response)
         }
     })
+});
+
+app.get('/abolitionists', function(req, res, next){
+        db.getAbolitionists(function(err, response){
+            if(err) {
+                res.send(err);
+            } else {
+                console.log('success')
+                res.status(200).send(response)
+            }
+        })
 });
 
   app.listen(process.env.PORT || port, function() {
