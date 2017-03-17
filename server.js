@@ -7,6 +7,7 @@ var app = module.exports = express();
 
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname + '../app/dist'));
+app.use(cors());
 
 var port = 8100;
 
