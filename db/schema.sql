@@ -28,21 +28,21 @@ INSERT INTO abolitionists
 ('./abolitionists/abolitionists17.png');
 
 
- CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    first_name VARCHAR(255),
-    last_name VARCHAR(255),
-    username VARCHAR(255),
-    password VARCHAR(255)
-);
+--  CREATE TABLE users (
+--     id SERIAL PRIMARY KEY,
+--     first_name VARCHAR(255),
+--     last_name VARCHAR(255),
+--     username VARCHAR(255),
+--     password VARCHAR(255)
+-- );
 
 
-CREATE TABLE orders
-(
-  id SERIAL PRIMARY KEY,
-  userid INTEGER REFERENCES users(id),
-  completed BOOLEAN
-);
+-- CREATE TABLE orders
+-- (
+--   id SERIAL PRIMARY KEY,
+--   userid INTEGER REFERENCES users(id),
+--   completed BOOLEAN
+-- );
 
 
 CREATE TABLE products
@@ -55,7 +55,7 @@ CREATE TABLE products
 );
 
 INSERT INTO products
-(Name, price, description, imageurl) VALUES
+(Name, price, description, imageurl, size, quantity) VALUES
  ('Ladies Soft Shell Jacket', 70.00, '100% polyester knit shell bonded to a water-resistant film insert and a 100% polyester mesh interior', './products/ladiesSoftShellJacket.png'),
  ('End Human Trafficking Tee - Charcoal', 20.00, '60% combed cotton/40% polyester jersey.', './products/endHumanTraffickingTeeCharcoal.png'),
  ('End Human Trafficking Tee - Navy', 20.00, '60% combed cotton/40% polyester jersey.', './products/endHumanTraffickingTeeNavy.png'),
@@ -77,8 +77,9 @@ INSERT INTO products
 CREATE TABLE cart
 (
   id SERIAL PRIMARY KEY,
-  orderid INTEGER REFERENCES orders(id),
-  productid INTEGER REFERENCES products(id)
- 
+  -- orderid INTEGER REFERENCES orders(id),
+  productid INTEGER REFERENCES products(id),
+  size VARCHAR(50),
+  quantity INTEGER
 );
 

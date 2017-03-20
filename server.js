@@ -1,17 +1,24 @@
 var express = require('express');
+var session = require('express-session')
 var bodyParser = require('body-parser');
 var massive = require('massive');
 var cors = require('cors');
+var config = require('./config.js');
+
 
 var app = module.exports = express();
 
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname + '../app/dist'));
 app.use(cors());
+app.use(session({
+  secret: config.secret,
+  resave: true,
+  saveUninitialized: true
+}));
 
 var port = 8100;
 
-var config = require('./config.js');
 
 var db = massive.connect({
     connectionString: config.database
@@ -27,11 +34,6 @@ var db = massive.connect({
       }
     });
   })
-
-
-// var controller = require('./productsCtrl.js');
-//var db = app.get('db'); 
-
 
 
 app.get('/products', function(req, res, next){
@@ -66,6 +68,23 @@ app.get('/abolitionists', function(req, res, next){
             }
         })
 });
+
+app.post('/api/cart', function(req, res, next){
+    console.log(req.body)
+    if(Array.isArray(req.session.cart)) {
+        req.session.cart.push(req.body)
+    } else {
+        req.session.cart = [req.body]
+    }
+    res.status(200).send('ok');
+})
+
+app.get('/api/cart', function(req, res, next){
+    res.status(200).json(req.session.cart);
+})
+
+
+
 
   app.listen(process.env.PORT || port, function() {
     console.log("Listening on port", this.address().port);
