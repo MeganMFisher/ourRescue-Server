@@ -1,5 +1,5 @@
 var express = require('express');
-var session = require('express-session')
+// var session = require('express-session')
 var bodyParser = require('body-parser');
 var massive = require('massive');
 var cors = require('cors');
@@ -11,11 +11,11 @@ var app = module.exports = express();
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname + '../app/dist'));
 app.use(cors());
-app.use(session({
-  secret: config.secret,
-  resave: true,
-  saveUninitialized: true
-}));
+// app.use(session({
+//   secret: config.secret,
+//   resave: true,
+//   saveUninitialized: true
+// }));
 
 var port = 8100;
 
@@ -68,19 +68,26 @@ app.get('/abolitionists', function(req, res, next){
             }
         })
 });
-
+let fakeSession = [];
 app.post('/api/cart', function(req, res, next){
-    console.log(req.body)
-    if(Array.isArray(req.session.cart)) {
-        req.session.cart.push(req.body)
-    } else {
-        req.session.cart = [req.body]
-    }
+
+    fakeSession.push(req.body);
+
     res.status(200).send('ok');
+
+
+    // if(Array.isArray(req.session.cart)) {
+    //     req.session.cart.push(req.body)
+    // } else {
+    //     req.session.cart = [req.body]
+    // }
+    // res.status(200).send('ok');
 })
 
 app.get('/api/cart', function(req, res, next){
-    res.status(200).json(req.session.cart);
+
+
+    res.status(200).json(fakeSession);
 })
 
 

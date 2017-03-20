@@ -51,11 +51,13 @@ CREATE TABLE products
   name VARCHAR(150),
   price INTEGER,
   description VARCHAR(150),
-  imageurl VARCHAR(150)
+  imageurl VARCHAR(150),
+  size VARCHAR(50),
+  quantity INTEGER
 );
 
 INSERT INTO products
-(Name, price, description, imageurl, size, quantity) VALUES
+(Name, price, description, imageurl) VALUES
  ('Ladies Soft Shell Jacket', 70.00, '100% polyester knit shell bonded to a water-resistant film insert and a 100% polyester mesh interior', './products/ladiesSoftShellJacket.png'),
  ('End Human Trafficking Tee - Charcoal', 20.00, '60% combed cotton/40% polyester jersey.', './products/endHumanTraffickingTeeCharcoal.png'),
  ('End Human Trafficking Tee - Navy', 20.00, '60% combed cotton/40% polyester jersey.', './products/endHumanTraffickingTeeNavy.png'),
