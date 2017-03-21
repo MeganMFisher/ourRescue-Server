@@ -3,8 +3,8 @@ var bodyParser = require('body-parser');
 var massive = require('massive');
 var cors = require('cors');
 var config = require('./config.js');
-// var jwt = require('jsonwebtoken');
-// var cookieParser = require('cookie-parser');
+var jwt = require('jsonwebtoken');
+var cookieParser = require('cookie-parser');
 
 
 var app = module.exports = express();
@@ -12,11 +12,7 @@ var app = module.exports = express();
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname + '../app/dist'));
 app.use(cors());
-
-// app.use(cors({
-//     origin: 'http://192.168.3.104:8100'
-// }));
-// app.use(cookieParser());
+app.use(cookieParser());
 
 var port = 8100;
 
@@ -69,16 +65,16 @@ app.get('/abolitionists', function(req, res, next){
             }
         })
 });
-let fakeSession = [];
-app.post('/api/cart', function(req, res, next){
-    fakeSession.push(req.body);
-    res.status(200).send('ok');
+// let fakeSession = [];
+// app.post('/api/cart', function(req, res, next){
+//     fakeSession.push(req.body);
+//     res.status(200).send('ok');
 
-})
+// })
 
-app.get('/api/cart', function(req, res, next){
-    res.status(200).json(fakeSession);
-})
+// app.get('/api/cart', function(req, res, next){
+//     res.status(200).json(fakeSession);
+// })
 
 // app.post('/api/cart', function(req, res) {
 //    if(Array.isArray(req.session.cart)) {
@@ -94,23 +90,28 @@ app.get('/api/cart', function(req, res, next){
 // })
 
 
-// app.post('/api/cart', function(req, res, next){
-//     var token = jwt.sign({cart: 'mycart'}, config.secretToken);
-
-//     res.cookie('my-cookie', token, {maxAge: 100000000, httpOnly: true})
-//     // res.cookie('my-cookie', token, req.body)
-
-//     res.send('ok')
-// })
+app.post('/api/cart', (req, res) => {
+    let myCart = {
+        item1: 'shirt',
+        item2: 'pants'
+    }
+    var token = jwt.sign({cart: myCart}, config.secretToken);
 
 
-// app.get('/api/cart', function(req, res, next) {
-//     var cart = jwt.verify(req.cookies['my-cookie'], config.secretToken);
 
-//     cart[0] // some product;
+    res.json({token: token})
+})
 
-//     res.send(cart);
-// })
+
+app.get('/api/viewcart', (req, res) => {
+    var token = req.headers['authorization']
+    console.log(`TOKEN IS ${token}`)
+    var cart = jwt.verify(token, config.secretToken);
+
+    cart[0] // some product;
+
+    res.send(cart);
+})
 
 
   app.listen(process.env.PORT || port, function() {
