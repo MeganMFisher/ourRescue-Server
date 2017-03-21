@@ -4,15 +4,15 @@ var massive = require('massive');
 var cors = require('cors');
 var config = require('./config.js');
 var jwt = require('jsonwebtoken');
-var cookieParser = require('cookie-parser');
+// var cookieParser = require('cookie-parser');
 
 
 var app = module.exports = express();
 
 app.use(bodyParser.json());
-app.use('/', express.static(__dirname + '../app/dist'));
+// app.use('/', express.static(__dirname + '../app/dist'));
 app.use(cors());
-app.use(cookieParser());
+// app.use(cookieParser());
 
 var port = 8100;
 
@@ -91,11 +91,21 @@ app.get('/abolitionists', function(req, res, next){
 
 
 app.post('/api/cart', (req, res) => {
-    let myCart = {
-        item1: 'shirt',
-        item2: 'pants'
-    }
-    var token = jwt.sign({cart: myCart}, config.secretToken);
+    var token = req.headers['authorization']
+    console.log(jwt.verify(token, config.secretToken) ? 'token exists' : 'token does not exist')
+
+    if(req.headers['authorization']){ //I dont know if this is actually testing anything
+        var verifiedToken = jwt.verify(token, config.secretToken); // here we are varifying the token
+        let cart = verifiedToken.cart; //there is a cart array on the token 
+        cart.push(req.body) // wer are pushing req.body to the cart array
+        res.json({token: jwt.sign({cart: cart}, config.secretToken)}) //finally we sign & send a new coppy of the cart in a brand new token that will get saved on the fron end 
+    } 
+    // else {
+    //     console.log(req.body)
+    //     let myCart = [req.body]
+    //     token = jwt.sign({cart: myCart}, config.secretToken);
+    // }   
+
 
 
 
@@ -105,12 +115,11 @@ app.post('/api/cart', (req, res) => {
 
 app.get('/api/viewcart', (req, res) => {
     var token = req.headers['authorization']
-    console.log(`TOKEN IS ${token}`)
-    var cart = jwt.verify(token, config.secretToken);
+    var verifiedToken = jwt.verify(token, config.secretToken);
+    console.log('this is the cart',verifiedToken.cart)
+    //cart[0] // some product;
 
-    cart[0] // some product;
-
-    res.send(cart);
+    res.send(verifiedToken);
 })
 
 
