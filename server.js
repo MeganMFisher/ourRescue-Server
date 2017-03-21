@@ -4,15 +4,13 @@ var massive = require('massive');
 var cors = require('cors');
 var config = require('./config.js');
 var jwt = require('jsonwebtoken');
-// var cookieParser = require('cookie-parser');
 
 
 var app = module.exports = express();
 
 app.use(bodyParser.json());
-// app.use('/', express.static(__dirname + '../app/dist'));
 app.use(cors());
-// app.use(cookieParser());
+
 
 var port = 8100;
 
@@ -65,40 +63,17 @@ app.get('/abolitionists', function(req, res, next){
             }
         })
 });
-// let fakeSession = [];
-// app.post('/api/cart', function(req, res, next){
-//     fakeSession.push(req.body);
-//     res.status(200).send('ok');
-
-// })
-
-// app.get('/api/cart', function(req, res, next){
-//     res.status(200).json(fakeSession);
-// })
-
-// app.post('/api/cart', function(req, res) {
-//    if(Array.isArray(req.session.cart)) {
-//         req.session.cart.push(req.body)
-//     } else {
-//         req.session.cart = [req.body]
-//     }
-//     res.status(200).send('ok');
-// })
-
-// app.get('/api/cart', function(req, res) {
-//   res.status(200).json(req.session.cart);
-// })
 
 
 app.post('/api/cart', (req, res) => {
     var token = req.headers['authorization']
-    console.log(jwt.verify(token, config.secretToken) ? 'token exists' : 'token does not exist')
+
 
     if(req.headers['authorization']){ //I dont know if this is actually testing anything
-        var verifiedToken = jwt.verify(token, config.secretToken); // here we are varifying the token
+        var verifiedToken = jwt.verify(token, config.secretToken); // here we are verifying the token
         let cart = verifiedToken.cart; //there is a cart array on the token 
         cart.push(req.body) // wer are pushing req.body to the cart array
-        res.json({token: jwt.sign({cart: cart}, config.secretToken)}) //finally we sign & send a new coppy of the cart in a brand new token that will get saved on the fron end 
+        res.json({token: jwt.sign({cart: cart}, config.secretToken)}) //finally we sign & send a new copy of the cart in a brand new token that will get saved on the front end 
     } 
     // else {
     //     console.log(req.body)
@@ -116,10 +91,24 @@ app.post('/api/cart', (req, res) => {
 app.get('/api/viewcart', (req, res) => {
     var token = req.headers['authorization']
     var verifiedToken = jwt.verify(token, config.secretToken);
-    console.log('this is the cart',verifiedToken.cart)
     //cart[0] // some product;
 
     res.send(verifiedToken);
+})
+
+app.post('/api/removecart', (req, res) => {
+    var token = req.headers['authorization']
+    var verifiedToken = jwt.verify(token, config.secretToken);
+    var cart = verifiedToken.cart;
+    console.log(req.body)
+        for(var i = 0; i < cart.length; i++) {
+            // console.log(cart[i].id, req.body.id)
+            if(cart[i].id === req.body.id) {
+                cart.splice(i, 1);
+                console.log('step2')
+            } 
+        }
+    res.json({token: jwt.sign({cart: cart}, config.secretToken)})
 })
 
 
