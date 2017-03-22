@@ -132,6 +132,22 @@ app.post('/api/createToken', (req, res) => {
     })
 })
 
+app.post('/api/address', (req, res) => {
+    var params = [
+        req.body.firstName,
+        req.body.lastName, 
+        req.body.emailAddress,
+        req.body.address,
+        req.body.city,
+        req.body.zipcode
+    ]
+    db.address(params, function(err, response){
+        if(!err){
+            res.send('Yay');
+        }
+    })
+
+})
 
 app.listen(process.env.PORT || port, function () {
     console.log("Listening on port", this.address().port);

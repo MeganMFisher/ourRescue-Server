@@ -1,9 +1,19 @@
-DROP TABLE IF EXISTS abolitionists, cart, orders, products, users;
+DROP TABLE IF EXISTS abolitionists, address, cart, orders, products, users;
 --DROP TABLE products CASCADE; <-- we need this to deal with key constraints. 
 
 CREATE TABLE abolitionists (
   id SERIAL PRIMARY KEY,
   image VARCHAR(150)
+);
+
+CREATE TABLE address (
+  id SERIAL PRIMARY KEY,
+  firstName VARCHAR(150),
+  lastName VARCHAR(150),
+  emailAddress VARCHAR(150),
+  address VARCHAR(150),
+  city VARCHAR(150),
+  zipcode VARCHAR(150)
 );
 
 INSERT INTO abolitionists 
