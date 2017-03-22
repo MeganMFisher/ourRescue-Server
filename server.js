@@ -30,6 +30,10 @@ var db = massive.connect({
         });
     })
 
+  // *******************************************
+  // *           Product Endpoints             *
+  // *******************************************
+
 
 app.get('/products', function (req, res, next) {
     db.getAllProducts(function (err, response) {
@@ -51,6 +55,10 @@ app.get('/products/:id', function (req, res, next) {
     })
 });
 
+  // *******************************************
+  // *       Abolitionists Endpoint            *
+  // *******************************************
+
 app.get('/abolitionists', function (req, res, next) {
     db.getAbolitionists(function (err, response) {
         if (err) {
@@ -60,6 +68,10 @@ app.get('/abolitionists', function (req, res, next) {
         }
     })
 });
+
+  // *******************************************
+  // *         Shopping Cart Endpoints         *
+  // *******************************************
 
 
 app.post('/api/cart', (req, res) => {

@@ -1,1 +1,0 @@
-SELECT * FROM order WHERE id = ($1);
