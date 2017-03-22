@@ -36,7 +36,6 @@ app.get('/products', function (req, res, next) {
         if (err) {
             res.send(err);
         } else {
-            console.log('success')
             res.status(200).send(response)
         }
     })
@@ -47,7 +46,6 @@ app.get('/products/:id', function (req, res, next) {
         if (err) {
             res.status(500).json(err);
         } else {
-            console.log('success')
             res.json(response)
         }
     })
@@ -58,7 +56,6 @@ app.get('/abolitionists', function (req, res, next) {
         if (err) {
             res.send(err);
         } else {
-            console.log('success')
             res.status(200).send(response)
         }
     })
@@ -93,12 +90,10 @@ app.post('/api/removecart', (req, res) => {
     var token = req.headers['authorization']
     var verifiedToken = jwt.verify(token, config.secretToken);
     var cart = verifiedToken.cart;
-    console.log(req.body)
     for (var i = 0; i < cart.length; i++) {
         // console.log(cart[i].id, req.body.id)
         if (cart[i].id === req.body.id) {
             cart.splice(i, 1);
-            console.log('step2')
         }
     }
     return res.json({
@@ -120,7 +115,7 @@ app.post('/api/update', (req, res) => {
 
 app.post('/api/createToken', (req, res) => {
      return res.json({
-        token: {token: jwt.sign({cart: cart}, config.secretToken)},
+        token: {token: jwt.sign({cart: []}, config.secretToken)},
         cart: []
     })
 })
