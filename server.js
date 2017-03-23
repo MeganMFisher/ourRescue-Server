@@ -164,7 +164,9 @@ app.post('/api/payment', function(req, res, next){
   console.log(req.body);
 
   const chargeAmt = req.body.amount.price;
+  console.log(req.body.amount.price)
    const amountArray = chargeAmt.toString().split('');
+   console.log("look at me " + amountArray);
   const pennies = [];
   for (var i = 0; i < amountArray.length; i++) {
     if(amountArray[i] === ".") {
@@ -183,7 +185,12 @@ app.post('/api/payment', function(req, res, next){
     	pennies.push(amountArray[i])
     }
   }
-  const convertedAmt = parseInt(pennies.join(''));
+pennies.push(0);
+pennies.push(0);
+console.log(pennies);
+
+  let convertedAmt = parseInt(pennies.join(''));
+//   convertedAmt = convertedAmt + 00;
   console.log("Pennies: ");
   console.log(convertedAmt);
 
