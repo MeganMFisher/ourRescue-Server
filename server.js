@@ -163,8 +163,8 @@ app.post('/api/address', (req, res) => {
 app.post('/api/payment', function(req, res, next){
   console.log(req.body);
 
-  const chargeAmt = req.body.amount.price;
-  console.log(req.body.amount.price)
+  const chargeAmt = req.body.amount;
+  console.log(req.body.amount)
    const amountArray = chargeAmt.toString().split('');
    console.log("look at me " + amountArray);
   const pennies = [];
@@ -185,9 +185,9 @@ app.post('/api/payment', function(req, res, next){
     	pennies.push(amountArray[i])
     }
   }
-pennies.push(0);
-pennies.push(0);
-console.log(pennies);
+// pennies.push(0);
+// pennies.push(0);
+// console.log(pennies);
 
   let convertedAmt = parseInt(pennies.join(''));
 //   convertedAmt = convertedAmt + 00;
