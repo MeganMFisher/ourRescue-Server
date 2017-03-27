@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS abolitionists, address, cart, orders, products, users;
+DROP TABLE IF EXISTS abolitionists, address, productTypes, products, cart;
 --DROP TABLE products CASCADE; <-- we need this to deal with key constraints. 
 
 CREATE TABLE abolitionists (
@@ -54,6 +54,17 @@ INSERT INTO abolitionists
 --   completed BOOLEAN
 -- );
 
+CREATE TABLE productTypes
+(
+  id SERIAL PRIMARY KEY,
+  type VARCHAR(50)
+);
+
+INSERT INTO productTypes
+(type) VALUES
+('Jacket'),
+('Hoodie'),
+('T-shirt');
 
 CREATE TABLE products
 (
@@ -63,35 +74,38 @@ CREATE TABLE products
   description VARCHAR(150),
   imageurl VARCHAR(150),
   size VARCHAR(50),
-  quantity INTEGER
+  quantity INTEGER,
+  productType INTEGER REFERENCES productTypes(id)
 );
 
 INSERT INTO products
-(Name, price, description, imageurl) VALUES
- ('Ladies Soft Shell Jacket', 70.00, '100% polyester knit shell bonded to a water-resistant film insert and a 100% polyester mesh interior', './products/ladiesSoftShellJacket.png'),
- ('End Human Trafficking Tee - Charcoal', 20.00, '60% combed cotton/40% polyester jersey.', './products/endHumanTraffickingTeeCharcoal.png'),
- ('End Human Trafficking Tee - Navy', 20.00, '60% combed cotton/40% polyester jersey.', './products/endHumanTraffickingTeeNavy.png'),
- ('Bold and Free Muscle Tank Ladies - Black Slub', 25.00, 'Poly viscose 65/35', './products/boldandFreeLadiesBlackSlub.png'),
- ('Bold and Free Muscle Tank Ladies - Black Marble', 25.00, 'Poly viscose 65/35', './products/boldandFreeLadiesBlackMarble.png'),
- ('O.U.R. Full Zip-up Hoodie', 30.00, null, './products/ourFullZipUpHoodie.png'),
- ('O.U.R. Rescue Men’s Soft Shell Jacket', 70.00, '100% polyester knit shell bonded to a water-resistant film insert and a 100% polyester mesh interior', './products/ourRescueMensSoftShellJacket.png'),
- ('Men’s Soft Shell Jacket', 70.00, '93/7 poly/spandex woven shell bonded to 100% polyester microfleece with laminated film insert to repel water and wind 1000MM fabric waterproof.', './products/ourRescueMensJacket.png'),
- ('O.U.R. Rescue Men’s Pullover Jacket', 35.00, '90/10 poly/spandex', './products/ourRescueMensPulloverJacket.png'),
- ('O.U.R. Rescue Ladies Pullover Jacket', 35.00, '90/10 poly/spandex.', './products/ourRescueLadiesPulloverJacket.png'),
- ('O.U.R. Hooded Sweatshirt', 35.00, '80% cotton/ 20% polyester.', './products/ourHoodedSweatshirt.png'),
- ('Freedom for All Tee', 15.00, null, './products/freedomForAllTee.png'),
- ('I’m an Abolitionist Tee', 12.00, '50/50 Cotton-Poly Blend', './products/abolitionistTee.png'),
- ('I’m an Abolitionist Ladies Tee', 12.00, '100% Cotton', './products/abolitionistLadiesTee.png'),
- ('O.U.R. Ladies Tee', 12.00, '100% Cotton', './products/ourLadiesTee.png'),
- ('O.U.R. Long-sleeve Crew Tee', 12.00, '100% combed cotton jersey.', './products/ourLongSleeveCrewTee.png');
+(Name, price, description, imageurl, productType) VALUES
+ ('Ladies Soft Shell Jacket', 70.00, '100% polyester knit shell bonded to a water-resistant film insert and a 100% polyester mesh interior', './products/ladiesSoftShellJacket.png', 1),
+ ('End Human Trafficking Tee - Charcoal', 20.00, '60% combed cotton/40% polyester jersey.', './products/endHumanTraffickingTeeCharcoal.png', 3),
+ ('End Human Trafficking Tee - Navy', 20.00, '60% combed cotton/40% polyester jersey.', './products/endHumanTraffickingTeeNavy.png', 3),
+ ('Bold and Free Muscle Tank Ladies - Black Slub', 25.00, 'Poly viscose 65/35', './products/boldandFreeLadiesBlackSlub.png', 3),
+ ('Bold and Free Muscle Tank Ladies - Black Marble', 25.00, 'Poly viscose 65/35', './products/boldandFreeLadiesBlackMarble.png', 3),
+ ('O.U.R. Full Zip-up Hoodie', 30.00, null, './products/ourFullZipUpHoodie.png', 2),
+ ('O.U.R. Rescue Men’s Soft Shell Jacket', 70.00, '100% polyester knit shell bonded to a water-resistant film insert and a 100% polyester mesh interior', './products/ourRescueMensSoftShellJacket.png', 1),
+ ('Men’s Soft Shell Jacket', 70.00, '93/7 poly/spandex woven shell bonded to 100% polyester microfleece with laminated film insert to repel water and wind 1000MM fabric waterproof.', './products/ourRescueMensJacket.png', 1),
+ ('O.U.R. Rescue Men’s Pullover Jacket', 35.00, '90/10 poly/spandex', './products/ourRescueMensPulloverJacket.png', 1),
+ ('O.U.R. Rescue Ladies Pullover Jacket', 35.00, '90/10 poly/spandex.', './products/ourRescueLadiesPulloverJacket.png', 1),
+ ('O.U.R. Hooded Sweatshirt', 35.00, '80% cotton/ 20% polyester.', './products/ourHoodedSweatshirt.png', 2),
+ ('Freedom for All Tee', 15.00, null, './products/freedomForAllTee.png', 3),
+ ('I’m an Abolitionist Tee', 12.00, '50/50 Cotton-Poly Blend', './products/abolitionistTee.png', 3),
+ ('I’m an Abolitionist Ladies Tee', 12.00, '100% Cotton', './products/abolitionistLadiesTee.png', 3),
+ ('O.U.R. Ladies Tee', 12.00, '100% Cotton', './products/ourLadiesTee.png', 3),
+ ('O.U.R. Long-sleeve Crew Tee', 12.00, '100% combed cotton jersey.', './products/ourLongSleeveCrewTee.png', 3);
 
 
-CREATE TABLE cart
-(
-  id SERIAL PRIMARY KEY,
-  -- orderid INTEGER REFERENCES orders(id),
-  productid INTEGER REFERENCES products(id),
-  size VARCHAR(50),
-  quantity INTEGER
-);
+-- CREATE TABLE cart
+-- (
+--   id SERIAL PRIMARY KEY,
+--   -- orderid INTEGER REFERENCES orders(id),
+--   productid INTEGER REFERENCES products(id),
+--   size VARCHAR(50),
+--   quantity INTEGER
+-- );
+
+
 
